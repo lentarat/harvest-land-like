@@ -41,3 +41,18 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: Ground
+    uniqueID: 3341224781
+    locked: 0
+  - name: HarvestableArea
+    uniqueID: 3498292159
+    locked: 0
+  - name: Characters
+    uniqueID: 915724233
+    locked: 0
+  - name: Effects
+    uniqueID: 1836336035
+    locked: 0
+  - name: UI
+    uniqueID: 1563438287
+    locked: 0
