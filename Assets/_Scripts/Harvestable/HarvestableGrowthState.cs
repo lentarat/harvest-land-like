@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Gameplay.Harvestable
 {
-    public enum HarvestableGrowthType
+    public enum HarvestableGrowthState
     {
         Absent,
         Sprout,

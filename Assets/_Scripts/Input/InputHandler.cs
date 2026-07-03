@@ -5,24 +5,25 @@ using UnityEngine.InputSystem;
 
 namespace Gameplay.Input
 {
-    public class InputHandler : MonoBehaviour
+    public static class InputHandler
     {
-        [SerializeField] private Camera _camera;
-
-        public bool IsPressed =>
+        public static bool IsPressed =>
             Pointer.current != null &&
             Pointer.current.press.isPressed;
 
-        public Vector2 PointerPosition =>
-            Pointer.current != null
-                ? Pointer.current.position.ReadValue()
-                : Vector2.zero;
-
-        public Vector3 GetWorldPosition(float z = 10f)
+        public static Vector2 GetPointerScreenPosition()
         {
-            Vector2 screenPosition = PointerPosition;
-            Vector3 worldPosition = _camera.ScreenToWorldPoint(new Vector3(screenPosition.x, screenPosition.y, z));
-            return worldPosition;
+            Vector2 result; 
+            if (Pointer.current != null)
+            {
+                result = Pointer.current.position.ReadValue();
+            }
+            else
+            {
+                result = Vector2.zero;
+            }
+
+            return result;
         }
     }
 }
