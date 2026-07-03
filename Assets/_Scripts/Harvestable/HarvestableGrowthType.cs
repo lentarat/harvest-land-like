@@ -6,6 +6,7 @@ namespace Gameplay.Harvestable
 {
     public enum HarvestableGrowthType
     {
+        Absent,
         Sprout,
         Medium,
         Mature

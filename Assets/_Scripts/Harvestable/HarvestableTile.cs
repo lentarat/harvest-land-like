@@ -10,13 +10,23 @@ namespace Gameplay.Harvestable
         [SerializeField] private HarvestableGrowthType _harvestableGrowthType;
         [SerializeField] private SpriteRenderer _spriteRenderer;
         [SerializeField] private HarvestableTileData[] _harvestableTileData;
+        [SerializeField] private float _xp = 5f;
 
-        [Serializable]
-        private struct HarvestableTileData
+        public void Harvest()
         {
-            public HarvestableGrowthType HarvestableGrowthType;
-            public Sprite Sprite;
+            if (_harvestableGrowthType != HarvestableGrowthType.Mature)
+            {
+                return;
+            }
+
+            _harvestableGrowthType = HarvestableGrowthType.Absent;
+            
         }
+
+        //private IEnumerator Regrow()
+        //{ 
+            
+        //}
 
         private void Awake()
         {
@@ -26,6 +36,13 @@ namespace Gameplay.Harvestable
         private void SetRandomXSpriteFlip()
         {
             _spriteRenderer.flipX = UnityEngine.Random.value > 0.5f;
+        }
+
+        [Serializable]
+        private struct HarvestableTileData
+        {
+            public HarvestableGrowthType HarvestableGrowthType;
+            public Sprite Sprite;
         }
     }
 }
