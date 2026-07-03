@@ -17,5 +17,15 @@ namespace Gameplay.Harvestable
             public HarvestableGrowthType HarvestableGrowthType;
             public Sprite Sprite;
         }
+
+        private void Awake()
+        {
+            SetRandomXSpriteFlip();
+        }
+
+        private void SetRandomXSpriteFlip()
+        {
+            _spriteRenderer.flipX = UnityEngine.Random.value > 0.5f;
+        }
     }
 }

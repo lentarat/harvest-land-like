@@ -6,16 +6,27 @@ namespace Gameplay.Harvestable
 {
     public class HarvestableSection : MonoBehaviour
     {
+        [Header ("Dependencies")]
         [SerializeField] private HarvestableTile _harvestableTile;
         [SerializeField] private Grid _grid;
+        [SerializeField] private Transform _harverstablesParent;
+
+        [Header("Settings")]
         [SerializeField] private int _edgeCount = 8;
+
+        [Header("Randomness Factor")]
         [SerializeField, Range(0, 0.1f)] private float _randomOffsetRange;
+        [SerializeField] private bool _randomizeFlip = true;
 
         private Vector3 _tileCentreOffset;
 
         private void Awake()
         {
-            SetTileCentreOffset();
+            if (_randomizeFlip)
+            {
+                SetTileCentreOffset();
+            }
+
             FillSection();
         }
 
@@ -33,6 +44,7 @@ namespace Gameplay.Harvestable
                 for (int j = -floorHalfEdgeCount; j < halfEdgeCount; j++)
                 {
                     HarvestableTile harvestableTile = Instantiate(_harvestableTile);
+                    harvestableTile.transform.parent = _harverstablesParent;
 
                     Vector3 randomOffset = new Vector3(
                         Random.Range(-_randomOffsetRange, _randomOffsetRange),
