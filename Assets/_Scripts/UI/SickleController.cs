@@ -1,3 +1,4 @@
+using Gameplay.Harvestable;
 using Gameplay.Input;
 using System.Collections;
 using System.Collections.Generic;
@@ -9,73 +10,97 @@ namespace Gameplay.UI
     public class SickleController : MonoBehaviour
     {
         [Header("Dependencies")]
-        [SerializeField] private RectTransform _sickleTransform;
-        [SerializeField] private Transform _idleSickleTransform;
         [SerializeField] private Camera _camera;
-        [SerializeField] private Collider2D _sickleButtonCollider;
-
-        [Header("Button")]
+        [SerializeField] private SickleView _sickleView;
+        [SerializeField] private HarvestSystem _harvestSystem;
+        [SerializeField] private Collider2D _sickleCollider;
+        [SerializeField] private Transform _sickleSlotTransform;
+     
+        [Header("Settings")]
+        [SerializeField] private Vector2 _dragPivotPosition;
         [SerializeField] private float _returnSpeed;
-        [SerializeField] private Vector2 _sicklePivotDragging = new Vector2(0.58f, 0.38f);
 
-        //public event System.Action<Vector3> OnDragWorld;
-        //public event System.Action OnRelease;
-        
-        private bool _dragging;
-        private Vector2 _sicklePivotIdle;
+        private float _minSqrMagnitudeToIdle = 0.01f;
+        private bool _isDragging;
+        private bool _isIdle = true;
+        private Vector2 _idlePivotPosition;
 
         private void Awake()
         {
-            _sicklePivotIdle = _sickleTransform.pivot;
+            _idlePivotPosition = _sickleView.GetPivotPosition();
         }
 
         private void Update()
         {
-            CheckForSickleMovement();
+            HandleInput();
         }
 
-        private void CheckForSickleMovement()
+        private void HandleInput()
         {
-            if (IsScreenPressed() && IsSickleButtonPressed())
+            if (InputHandler.IsPressed)
             {
-                if (!_dragging)
+                Vector2 screenPosition = InputHandler.GetPointerScreenPosition();
+
+                if (_isDragging == false)
                 {
-                    _dragging = true;
-                    _sickleTransform.pivot = _sicklePivotDragging;
+                    if (IsPointerOnSickle(screenPosition))
+                    {
+                        _isIdle = false;
+                        _isDragging = true;
+                        _sickleView.SetPivotPosition(_dragPivotPosition);
+                    }
                 }
 
-                Vector3 worldPosition = InputHandler.GetPointerScreenPosition();
-                _sickleTransform.position = worldPosition;
+                if (_isDragging)
+                {
+                    Vector3 worldPosition = ScreenToWorld(screenPosition);
 
-                //OnDragWorld?.Invoke(worldPosition);
+                    _sickleView.SetPosition(screenPosition);
+                    _harvestSystem.TryHarvest(worldPosition);
+                }
             }
             else
             {
-                if (_dragging)
+                if (_isDragging)
                 {
-                    _dragging = false;
-                    _sickleTransform.pivot = _sicklePivotIdle;
-                    //OnRelease?.Invoke();
+                    _isDragging = false;
+                    _sickleView.SetPivotPosition(_idlePivotPosition);
                 }
 
-                ReturnToSlot();
+                if (_isIdle == false)
+                {
+                    ReturnToSlot();
+                }
             }
-        }
-
-        private bool IsScreenPressed() => InputHandler.IsPressed;
-        private bool IsSickleButtonPressed()
-        {
-            Vector3 screenPosition = InputHandler.GetPointerScreenPosition();
-            bool result = _sickleButtonCollider.OverlapPoint(screenPosition);
-            return result;
         }
 
         private void ReturnToSlot()
         {
-            _sickleTransform.position = Vector3.Lerp(
-                _sickleTransform.position,
-                _idleSickleTransform.position,
+            Vector3 position = Vector3.Lerp(
+                _sickleView.GetPosition(),
+                _sickleSlotTransform.position,
                 Time.deltaTime * _returnSpeed);
+
+            _sickleView.SetPosition(position);
+
+            float sqrMagnitude = Vector3.SqrMagnitude(_sickleSlotTransform.position - _sickleView.GetPosition());
+            if (sqrMagnitude < _minSqrMagnitudeToIdle)
+            {
+                _isIdle = true;
+            }
+        }
+
+        private bool IsPointerOnSickle(Vector2 screenPosition)
+        {
+            bool result = _sickleCollider.OverlapPoint(screenPosition);
+            return result;
+        }
+
+        private Vector3 ScreenToWorld(Vector2 screenPosition)
+        {
+            Vector3 worldPosition = _camera.ScreenToWorldPoint(screenPosition);
+            worldPosition.z = 0;
+            return worldPosition;
         }
     }
 }

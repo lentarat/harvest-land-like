@@ -97,14 +97,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3cbfcb1a28b51724091bf51c372d0c60, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _harvestableGrowthState: 0
+  _harvestableGrowthState: 3
   _spriteRenderer: {fileID: 7877001933018606914}
   _harvestableTileData:
-  - HarvestableGrowthState: 0
+  - HarvestableGrowthState: 1
     Sprite: {fileID: 21300000, guid: f63102e5ba582764daad80bd245e99a3, type: 3}
-  - HarvestableGrowthState: 0
+  - HarvestableGrowthState: 2
     Sprite: {fileID: 21300000, guid: 6359c0392fc6fb3439f00d41d352e988, type: 3}
-  - HarvestableGrowthState: 0
+  - HarvestableGrowthState: 3
     Sprite: {fileID: 21300000, guid: 8396b87c15e93214cb53906504820935, type: 3}
   _xp: 5
-  _growthStateUpdatePeriodMS: 2000
+  _growthStateUpdatePeriodMS: 2500
+  _regrowPeriodDispersion: 0.6

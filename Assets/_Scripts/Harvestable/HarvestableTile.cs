@@ -12,7 +12,10 @@ namespace Gameplay.Harvestable
         [SerializeField] private SpriteRenderer _spriteRenderer;
         [SerializeField] private HarvestableTileData[] _harvestableTileData;
         [SerializeField] private float _xp = 5f;
-        [SerializeField] private int _growthStateUpdatePeriodMS = 2000;
+        [SerializeField] private float _growthStateUpdatePeriodMS;
+        [SerializeField, Range (0f, 0.8f)] private float _regrowPeriodDispersion;
+
+        private Dictionary<HarvestableGrowthState, Sprite> _growthStateToSpriteMap;
 
         public void Harvest()
         {
@@ -21,22 +24,60 @@ namespace Gameplay.Harvestable
                 return;
             }
 
-            _harvestableGrowthState = HarvestableGrowthState.Absent;
+            SetState(HarvestableGrowthState.Absent);
             Regrow().Forget();
+        }
+
+        private void SetState(HarvestableGrowthState state)
+        {
+            if (state == HarvestableGrowthState.Absent)
+            {
+                _spriteRenderer.sprite = null;
+            }
+            else
+            {
+                _spriteRenderer.sprite = _growthStateToSpriteMap[state];
+            }
+
+            _harvestableGrowthState = state;
         }
 
         private async UniTask Regrow()
         {
-            await UniTask.Delay(_growthStateUpdatePeriodMS);
-            _harvestableGrowthState = HarvestableGrowthState.Sprout;
+            int waitingTime = GetWaitingTime();
+            await UniTask.Delay(waitingTime);
+            SetState(HarvestableGrowthState.Sprout);
 
-            await UniTask.Delay(_growthStateUpdatePeriodMS);
-            _harvestableGrowthState = HarvestableGrowthState.Mature;
+            waitingTime = GetWaitingTime();
+            await UniTask.Delay(waitingTime);
+            SetState(HarvestableGrowthState.Medium);
+
+            waitingTime = GetWaitingTime();
+            await UniTask.Delay(waitingTime);
+            SetState(HarvestableGrowthState.Mature);
+        }
+
+        private int GetWaitingTime()
+        {
+            float randomWaitingMultiplier = UnityEngine.Random.Range(0f, _regrowPeriodDispersion);
+            int waitingTime = (int)(_growthStateUpdatePeriodMS * randomWaitingMultiplier);
+            int result = (int)_growthStateUpdatePeriodMS - waitingTime;
+            return result;
         }
 
         private void Awake()
         {
+            FillDictionary();
             SetRandomXSpriteFlip();
+        }
+
+        private void FillDictionary()
+        {
+            _growthStateToSpriteMap = new Dictionary<HarvestableGrowthState, Sprite>();
+            foreach (HarvestableTileData data in _harvestableTileData)
+            {
+                _growthStateToSpriteMap[data.HarvestableGrowthState] = data.Sprite;
+            }
         }
 
         private void SetRandomXSpriteFlip()
