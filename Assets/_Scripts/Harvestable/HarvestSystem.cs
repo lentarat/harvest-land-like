@@ -1,3 +1,4 @@
+using Gameplay.Effects;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -7,6 +8,7 @@ namespace Gameplay.Harvestable
 {
     public class HarvestSystem : MonoBehaviour
     {
+        [SerializeField] private HarvestAnimationSystem _harvestAnimationSystem;
         [SerializeField] private HarvestableSection[] _harvestableSections;
 
         public event Action<HarvestableTile> OnTileHarvested;
@@ -29,6 +31,7 @@ namespace Gameplay.Harvestable
                     if (hasHarvested)
                     {
                         OnTileHarvested?.Invoke(tile);
+                        _harvestAnimationSystem.PlayHarvest(tile);
                     }
 
                     return;
