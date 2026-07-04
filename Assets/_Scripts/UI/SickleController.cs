@@ -1,11 +1,12 @@
 using Gameplay.Harvestable;
 using Gameplay.Input;
+using Gameplay.UI;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Windows;
 
-namespace Gameplay.UI
+namespace Gameplay
 {
     public class SickleController : MonoBehaviour
     {
@@ -19,6 +20,8 @@ namespace Gameplay.UI
         [Header("Settings")]
         [SerializeField] private Vector2 _dragPivotPosition;
         [SerializeField] private float _returnSpeed;
+
+        public bool IsDragging => _isDragging;
 
         private float _minSqrMagnitudeToIdle = 0.01f;
         private bool _isDragging;
