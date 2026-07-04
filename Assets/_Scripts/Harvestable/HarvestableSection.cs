@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 namespace Gameplay.Harvestable
@@ -12,16 +13,55 @@ namespace Gameplay.Harvestable
         [SerializeField] private Transform _harverstablesParent;
 
         [Header("Settings")]
+        [SerializeField] private bool _isUnlocked;
         [SerializeField] private int _edgeCount = 8;
+        [SerializeField] private float _darknessValue = 0.7f;
 
         [Header("Randomness Factor")]
         [SerializeField, Range(0, 0.1f)] private float _randomOffsetRange;
         [SerializeField] private bool _randomizeFlip = true;
 
+        public bool IsUnlocked => _isUnlocked;
         public Grid Grid => _grid;
 
         private readonly Dictionary<Vector3Int, HarvestableTile> _vectorToTileMap = new();
         private Vector3 _tileCentreOffset;
+
+        public void Lock()
+        {
+            if (_isUnlocked == false)
+            {
+                return;
+            }
+
+            _isUnlocked = false;
+            SetDarkness(_darknessValue);
+        }
+
+        private void SetDarkness(float value)
+        {
+            SpriteRenderer[] spriteRenderers = GetComponentsInChildren<SpriteRenderer>();
+
+            foreach (SpriteRenderer spriteRenderer in spriteRenderers)
+            {
+                Color color = spriteRenderer.color;
+                color *= value;
+                color.a = 1f;
+                spriteRenderer.color = color;
+            }
+        }
+
+        public void Unlock()
+        {
+            if (_isUnlocked)
+            {
+                return;
+            }
+
+            _isUnlocked = true;
+            float darknessValue = 1 / _darknessValue;
+            SetDarkness(darknessValue);
+        }
 
         private void Awake()
         {
@@ -31,6 +71,15 @@ namespace Gameplay.Harvestable
             }
 
             FillSection();
+            ForceLock();
+        }
+
+        private void ForceLock()
+        {
+            if (_isUnlocked == false)
+            {
+                SetDarkness(_darknessValue);
+            }
         }
 
         private void SetTileCentreOffset()

@@ -97,8 +97,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3cbfcb1a28b51724091bf51c372d0c60, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _harvestableGrowthState: 3
   _spriteRenderer: {fileID: 7877001933018606914}
+  _flyingEffectSprite: {fileID: 21300000, guid: 55511d61731ce76478c77ed28c38f1f0, type: 3}
+  _harvestableGrowthState: 3
   _harvestableTileData:
   - HarvestableGrowthState: 1
     Sprite: {fileID: 21300000, guid: f7c2cdaa291058c4097e9e947445d947, type: 3}

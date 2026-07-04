@@ -6338,6 +6338,71 @@ Transform:
   m_Children: []
   m_Father: {fileID: 351184171}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &857154021
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 857154023}
+  - component: {fileID: 857154022}
+  m_Layer: 0
+  m_Name: LevelController
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &857154022
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 857154021}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 240083d21ae2da34ba5e114856d92ad0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _harvestableSections:
+  - {fileID: 2147158928}
+  - {fileID: 1456703660}
+  - {fileID: 1440832959}
+  - {fileID: 866245641}
+  - {fileID: 2105699195}
+  - {fileID: 1645950600}
+  - {fileID: 1778639386}
+  - {fileID: 1204528334}
+  - {fileID: 1292212351}
+  _harvestSystem: {fileID: 967425909}
+  _levelsDatas:
+  - XPRequired: 250
+  - XPRequired: 500
+  - XPRequired: 750
+  - XPRequired: 1000
+  - XPRequired: 1250
+  - XPRequired: 1500
+  - XPRequired: 1750
+  - XPRequired: 2000
+  - XPRequired: 2250
+--- !u!4 &857154023
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 857154021}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.25479195, y: -0.13395281, z: -0.06210003}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &866245641 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 5828133449038496851, guid: 4dc15e59d184e42409890f6c5539af5d, type: 3}
@@ -16266,6 +16331,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 1830959703}
     m_Modifications:
     - target: {fileID: 5828133449038496851, guid: 4dc15e59d184e42409890f6c5539af5d, type: 3}
+      propertyPath: _isUnlocked
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5828133449038496851, guid: 4dc15e59d184e42409890f6c5539af5d, type: 3}
       propertyPath: _harvestableTile
       value: 
       objectReference: {fileID: 2885401366736724010, guid: 370b66a028ae8404690d712acc2a2cb8, type: 3}
@@ -16402,5 +16471,6 @@ SceneRoots:
   - {fileID: 1420201375}
   - {fileID: 967425910}
   - {fileID: 1779589005}
+  - {fileID: 857154023}
   - {fileID: 559044811}
   - {fileID: 970225489}

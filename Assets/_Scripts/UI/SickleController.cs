@@ -69,11 +69,11 @@ namespace Gameplay
                     _isDragging = false;
                     _sickleView.SetPivotPosition(_idlePivotPosition);
                 }
+            }
 
-                if (_isIdle == false)
-                {
-                    ReturnToSlot();
-                }
+            if (_isIdle == false)
+            {
+                ReturnToSlot();
             }
         }
 
