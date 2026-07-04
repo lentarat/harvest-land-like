@@ -1,4 +1,5 @@
-﻿using Gameplay.Harvestable;
+﻿using DG.Tweening;
+using Gameplay.Harvestable;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -16,14 +17,18 @@ namespace Gameplay.Effects
         [SerializeField] private RectTransform _xpBarRectTransform;
         [SerializeField] private Camera _camera;
 
-        Vector3 _harvestOffset = new Vector3(0.35f, 0f, 0f);
-        Vector3 _xpOffset = new Vector3(-0.35f, 0f, 0f);
+        [Header("Storage Bouncy Settings")]
+        [SerializeField] private float _storageBouncyScale;
+        [SerializeField] private float _storageBouncyDuration;
+
+        private int _storageBouncyAnimationId;
+        private Tween _storageTween;
+        private Vector3 _harvestOffset = new Vector3(0.35f, 0f, 0f);
+        private Vector3 _xpOffset = new Vector3(-0.35f, 0f, 0f);
 
         public void PlayHarvest(HarvestableTile tile)
         {
             Vector3 basePosition = tile.transform.position;
-
-
 
             HarvestFlyEffect harvestFlyEffect = Instantiate(_harvestFlyEffectPrefab);
 
@@ -31,7 +36,7 @@ namespace Gameplay.Effects
                 tile.FlyingEffectSprite,
                 basePosition + _harvestOffset,
                 _storageWorldTransform.position,
-                () => Debug.Log("Storage reached")
+                () => PlayStorageBouncy()
             );
 
             Vector3 screenPositionStart = _camera.WorldToScreenPoint(basePosition + _xpOffset);
@@ -41,8 +46,25 @@ namespace Gameplay.Effects
             XPFlyEffect.Play(
                 screenPositionStart,
                 _xpBarRectTransform.position,
-                () => Debug.Log("XP reached")
+                null
             );
+        }
+
+        private void PlayStorageBouncy()
+        {
+            int myId = ++_storageBouncyAnimationId;
+
+            _storageTween?.Kill();
+            _storageWorldTransform.localScale = Vector3.one;
+
+            _storageTween = _storageWorldTransform
+                .DOScale(_storageBouncyScale, _storageBouncyDuration)
+                .SetLoops(2, LoopType.Yoyo)
+                .OnKill(() =>
+                {
+                    if (myId != _storageBouncyAnimationId)
+                        return;
+                });
         }
     }
 }
