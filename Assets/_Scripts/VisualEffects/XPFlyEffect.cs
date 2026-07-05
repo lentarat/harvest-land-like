@@ -33,7 +33,7 @@ namespace Gameplay.Effects
 
             sequence.Append(
                 _rectTransform.DOMove(targetScreenPosition, _flyDuration)
-                    .SetEase(Ease.InCirc));
+                    .SetEase(_flyEase));
 
             sequence.OnComplete(() =>
             {

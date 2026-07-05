@@ -1,4 +1,5 @@
 ﻿using DG.Tweening;
+using Gameplay.Audio;
 using Gameplay.Harvestable;
 using Gameplay.Tutorial;
 using System.Collections;
@@ -25,6 +26,9 @@ namespace Gameplay.Effects
         [Header("UI")]
         [SerializeField] private TutorialText _tutorialText;
 
+        [Header("Audio")]
+        [SerializeField] private HarvestAudioSystem _harvestAudioSystem;
+
         private int _storageBouncyAnimationId;
         private Tween _storageTween;
         private Vector3 _harvestOffset = new Vector3(0.35f, 0f, 0f);
@@ -42,6 +46,8 @@ namespace Gameplay.Effects
                 _storageWorldTransform.position,
                 () => PlayStorageBouncy()
             );
+
+            _harvestAudioSystem.PlayHarvestSFX();
 
             Vector3 screenPositionStart = _camera.WorldToScreenPoint(basePosition + _xpOffset);
 
