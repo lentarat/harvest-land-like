@@ -173,7 +173,7 @@ MonoBehaviour:
   _backgroundMusicAudioClip: {fileID: 8300000, guid: 3df0cc6e5bc07904682a53589f0f6338, type: 3}
   _harvestAudioClip: {fileID: 8300000, guid: a5f4affc9d34be141a7b7049a868742e, type: 3}
   _poolSize: 10
-  _cooldown: 0.1
+  _cooldown: 0.3
 --- !u!1 &11080693
 GameObject:
   m_ObjectHideFlags: 0
@@ -5282,7 +5282,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 1
-  m_Volume: 1
+  m_Volume: 0.25
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -15233,7 +15233,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 1
-  m_Volume: 0.01
+  m_Volume: 0.02
   m_Pitch: 1
   Loop: 0
   Mute: 0
