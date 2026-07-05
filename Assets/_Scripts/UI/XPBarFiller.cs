@@ -5,6 +5,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Threading;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -25,13 +26,22 @@ namespace Gameplay.UI
         [SerializeField] private float _handleBouncyScale;
         [SerializeField] private float _handleBouncyDuration;
 
+        [Header("Text")]
+        [SerializeField] private TextMeshProUGUI _levelText;
+
         private CancellationTokenSource _cts;
         private Tween _bounceTween;
         private int _animationId;
 
         private void Awake()
         {
+            _levelController.OnLevelChanged += HandleLevelChanged;
             _levelController.OnCurrentXPChanged += HandleCurrentXPChanged;
+        }
+
+        private void HandleLevelChanged(int curretLevel)
+        {
+            _levelText.text = curretLevel.ToString();
         }
 
         private void HandleCurrentXPChanged(float currentXP, float previousXP, float requiredXP)
@@ -94,6 +104,7 @@ namespace Gameplay.UI
         private void OnDestroy()
         {
             _levelController.OnCurrentXPChanged -= HandleCurrentXPChanged;
+            _levelController.OnLevelChanged -= HandleLevelChanged;
         }
     }
 }

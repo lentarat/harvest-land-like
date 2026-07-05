@@ -11,6 +11,16 @@ namespace Gameplay.Effects
     {
         [SerializeField] private SpriteRenderer _spriteRenderer;
 
+        [Header("Jump")]
+        [SerializeField] private float _jumpHeight = 0.5f;
+        [SerializeField] private float _jumpPower = 0.5f;
+        [SerializeField] private int _jumpCount = 1;
+        [SerializeField] private float _jumpDuration = 0.25f;
+
+        [Header("Fly")]
+        [SerializeField] private float _flyDuration = 0.4f;
+        [SerializeField] private Ease _flyEase = Ease.InQuad;
+
         public void Play(Sprite sprite, Vector3 startPosition, Vector3 targetPosition, Action onComplete)
         {
             transform.position = startPosition;
@@ -18,9 +28,16 @@ namespace Gameplay.Effects
 
             Sequence sequence = DOTween.Sequence();
 
-            sequence.Append(transform.DOJump(startPosition + Vector3.up * 0.5f, 0.5f, 1, 0.25f));
+            sequence.Append(
+                transform.DOJump(
+                    startPosition + Vector3.up * _jumpHeight,
+                    _jumpPower,
+                    _jumpCount,
+                    _jumpDuration));
 
-            sequence.Append(transform.DOMove(targetPosition, 0.4f).SetEase(Ease.InQuad));
+            sequence.Append(
+                transform.DOMove(targetPosition, _flyDuration)
+                .SetEase(_flyEase));
 
             sequence.OnComplete(() =>
             {

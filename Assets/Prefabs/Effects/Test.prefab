@@ -98,3 +98,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _spriteRenderer: {fileID: 2366385670629206098}
+  _jumpHeight: 0.5
+  _jumpPower: 0.5
+  _jumpCount: 1
+  _jumpDuration: 0.35
+  _flyDuration: 0.6
+  _flyEase: 5

@@ -13,6 +13,7 @@ namespace Gameplay.Level
         [SerializeField] private HarvestSystem _harvestSystem;
         [SerializeField] private LevelData[] _levelsDatas;
 
+        public event Action<int> OnLevelChanged;
         public event Action<float, float, float> OnCurrentXPChanged;
 
         private int _currentLevel;
@@ -39,24 +40,15 @@ namespace Gameplay.Level
             while (_currentLevel + 1 < _levelsDatas.Length &&
                 CurrentXP >= _levelsDatas[_currentLevel].XPRequired)
             {
-                _currentLevel++;
+                LevelUp();
                 UpdateSections();
             }
         }
 
-        private void Awake()
+        private void LevelUp()
         {
-            SubscribeToTileHarvested();
-        }
-
-        private void SubscribeToTileHarvested()
-        {
-            _harvestSystem.OnTileHarvested += HandleTileHarvested;
-        }
-
-        private void HandleTileHarvested(HarvestableTile harvestableTile)
-        {
-            CurrentXP += harvestableTile.XP;
+            _currentLevel++;
+            OnLevelChanged?.Invoke(_currentLevel + 1);
         }
 
         private void UpdateSections()
@@ -74,12 +66,18 @@ namespace Gameplay.Level
             }
         }
 
-        private void OnDestroy()
+
+        private void Awake()
         {
-            UnsubscribeToTileHarvested();
+            _harvestSystem.OnTileHarvested += HandleTileHarvested;
         }
 
-        private void UnsubscribeToTileHarvested()
+        private void HandleTileHarvested(HarvestableTile harvestableTile)
+        {
+            CurrentXP += harvestableTile.XP;
+        }
+
+        private void OnDestroy()
         {
             _harvestSystem.OnTileHarvested -= HandleTileHarvested;
         }

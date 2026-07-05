@@ -1,5 +1,6 @@
 ﻿using DG.Tweening;
 using Gameplay.Harvestable;
+using Gameplay.Tutorial;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -20,6 +21,9 @@ namespace Gameplay.Effects
         [Header("Storage Bouncy Settings")]
         [SerializeField] private float _storageBouncyScale;
         [SerializeField] private float _storageBouncyDuration;
+
+        [Header("UI")]
+        [SerializeField] private TutorialText _tutorialText;
 
         private int _storageBouncyAnimationId;
         private Tween _storageTween;
@@ -48,6 +52,8 @@ namespace Gameplay.Effects
                 _xpBarRectTransform.position,
                 null
             );
+
+            _tutorialText.Hide();
         }
 
         private void PlayStorageBouncy()

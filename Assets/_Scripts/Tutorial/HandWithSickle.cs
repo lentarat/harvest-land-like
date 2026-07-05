@@ -16,7 +16,8 @@ namespace Gameplay.Tutorial
         [SerializeField] private Image _sickleButtonImage;
         [SerializeField] private RectTransform[] _pointsRectTransforms;
         [SerializeField] private SickleController _sickleController;
-        
+        [SerializeField] private TutorialText _tutorialText;
+
         [Header("Movement")]
         [SerializeField] private float _pathDuration = 1.2f;
 
@@ -28,7 +29,6 @@ namespace Gameplay.Tutorial
         [SerializeField] private Color _highlightColor = new(0.7f, 1f, 0.7f, 1f);
         [SerializeField] private float _buttonPulseTime = 0.6f;
 
-
         private float _idleTimer;
         private bool _isVisible;
         private Tween _moveTween;
@@ -39,6 +39,8 @@ namespace Gameplay.Tutorial
 
         private float _lastX;
         private float _lastSign;
+
+        private const float FacingEpsilon = 0.0001f;
 
         private void Awake()
         {
@@ -82,11 +84,14 @@ namespace Gameplay.Tutorial
 
         private void SetFacing()
         {
-            if (_lastSign != Mathf.Sign(_handWithSickleImage.rectTransform.anchoredPosition.x - _lastX))
+            float deltaX = _handWithSickleImage.rectTransform.anchoredPosition.x - _lastX;
+            float sign = Mathf.Abs(deltaX) < FacingEpsilon ? _lastSign : Mathf.Sign(deltaX);
+
+            if (_lastSign != sign)
             {
                 _handWithSickleImage.rectTransform.Rotate(new Vector3(0f, 180f, 0f));
             }
-            _lastSign = Mathf.Sign(_handWithSickleImage.rectTransform.anchoredPosition.x - _lastX);
+            _lastSign = sign;
             _lastX = _handWithSickleImage.rectTransform.anchoredPosition.x;
         }
 
@@ -131,6 +136,8 @@ namespace Gameplay.Tutorial
 
             _fadeTween = _handWithSickleImage
                 .DOFade(0f, _fadeTime);
+
+            _tutorialText.Show("Harvest crops!");
         }
 
         private void Show()
@@ -145,6 +152,8 @@ namespace Gameplay.Tutorial
             _fadeTween = _handWithSickleImage
                 .DOFade(1f, _fadeTime)
                 .SetEase(Ease.InOutSine);
+
+            _tutorialText.Show("Get the sickle!");
         }
 
         private void ShowButtonHint()
