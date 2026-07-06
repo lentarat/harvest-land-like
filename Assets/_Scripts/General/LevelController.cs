@@ -1,4 +1,5 @@
 using Cysharp.Threading.Tasks.Triggers;
+using Gameplay.General;
 using Gameplay.Harvestable;
 using System;
 using System.Collections;
@@ -9,6 +10,7 @@ namespace Gameplay.Level
 {
     public class LevelController : MonoBehaviour
     {
+        [SerializeField] private GameFlowController _gameFlowController;
         [SerializeField] private HarvestableSection[] _harvestableSections;
         [SerializeField] private HarvestSystem _harvestSystem;
         [SerializeField] private LevelData[] _levelsDatas;
@@ -37,6 +39,12 @@ namespace Gameplay.Level
                 float requiredXP = _levelsDatas[_currentLevel].XPRequired;
                 OnCurrentXPChanged?.Invoke(_currentXP, previousXP, requiredXP - 1);
             }
+        }
+
+        public void PostStoryImage()
+        {
+            _gameFlowController.EnterPostStory();
+            OnPostStoryShown?.Invoke();
         }
 
         private void CheckLevelUp()
