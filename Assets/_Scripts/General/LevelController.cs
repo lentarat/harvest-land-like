@@ -12,10 +12,14 @@ namespace Gameplay.Level
         [SerializeField] private HarvestableSection[] _harvestableSections;
         [SerializeField] private HarvestSystem _harvestSystem;
         [SerializeField] private LevelData[] _levelsDatas;
-
+        [SerializeField] private int _storeRedirectionLevel = 2;
+        
         public event Action<int> OnLevelChanged;
         public event Action<float, float, float> OnCurrentXPChanged;
+        public event Action OnStoryRedirect;
+        public event Action OnPostStoryShown;
 
+        private bool _isStoryTriggered;
         private int _currentLevel;
         
         private float _currentXP;
@@ -78,6 +82,16 @@ namespace Gameplay.Level
         private void HandleTileHarvested(HarvestableTile harvestableTile)
         {
             CurrentXP += harvestableTile.XP;
+            HandleStoryRedirect();
+        }
+
+        private void HandleStoryRedirect()
+        { 
+            if(_currentLevel == _storeRedirectionLevel && _isStoryTriggered == false)
+            {
+                _isStoryTriggered = true;
+                OnStoryRedirect?.Invoke();
+            }
         }
 
         private void OnDestroy()

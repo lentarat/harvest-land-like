@@ -2569,7 +2569,9 @@ MonoBehaviour:
   _levelController: {fileID: 857154022}
   _levelUpImage: {fileID: 280299063}
   _fadeDuration: 0.2
-  _holdDuration: 2
+  _scaleDuration: 0.3
+  _holdDuration: 0.6
+  _maxScale: 1.2
 --- !u!114 &280299063
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6750,8 +6752,8 @@ MonoBehaviour:
   _pathDuration: 1.5
   _fadeTime: 1
   _idleTimeToShow: 4
-  _highlightColor: {r: 0.7, g: 1, b: 0.7, a: 1}
-  _buttonPulseTime: 0.6
+  _highlightColor: {r: 0.40899786, g: 0.9528302, b: 0.40899786, a: 1}
+  _buttonPulseTime: 0.4
 --- !u!114 &795026670
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7185,6 +7187,7 @@ MonoBehaviour:
     UnlockedSections: 
   - XPRequired: 2250
     UnlockedSections: 
+  _storeRedirectionLevel: 2
 --- !u!4 &857154023
 Transform:
   m_ObjectHideFlags: 0
