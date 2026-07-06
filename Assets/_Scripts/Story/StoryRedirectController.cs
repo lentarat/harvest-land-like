@@ -11,7 +11,7 @@ namespace Gameplay.Story
     {
         [SerializeField] private LevelController _levelController;
         [SerializeField] private GameFlowController _gameFlowController;
-        [SerializeField] private int _inputBanDelayMS = 500;
+        [SerializeField] private int _levelForVictory = 2;
         [SerializeField] private string _storyLink = "https://en.wikipedia.org/wiki/Cat";
 
         public void Redirect()
@@ -21,7 +21,7 @@ namespace Gameplay.Story
 
         private void Awake()
         {
-            _levelController.OnLevelChanged += HandleLevelChanged;
+            _levelController.OnLevelChanged += HandleVictory;
         }
 
         private async UniTask RedirectAsync()
@@ -33,9 +33,9 @@ namespace Gameplay.Story
             _gameFlowController.EnterPostStory();
         }
 
-        private void HandleLevelChanged(int currentLevel)
+        private void HandleVictory(int currentLevel)
         {
-            if (currentLevel == 2)
+            if (currentLevel == _levelForVictory)
             {
                 RedirectAsync().Forget();
             }
@@ -43,7 +43,7 @@ namespace Gameplay.Story
 
         private void OnDestroy()
         {
-            _levelController.OnLevelChanged -= HandleLevelChanged;
+            _levelController.OnLevelChanged -= HandleVictory;
         }
     }
 }

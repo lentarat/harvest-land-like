@@ -20,6 +20,8 @@ namespace Gameplay.Level
         private int _currentLevel;
         private float _currentXP;
 
+        public int CurrentLevel => _currentLevel;
+
         private float CurrentXP 
         { 
             get => _currentXP;

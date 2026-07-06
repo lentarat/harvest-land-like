@@ -13,10 +13,28 @@ namespace Gameplay.Story
         [SerializeField] private GameFlowController _gameFlowController;
         [SerializeField] private CanvasGroup _gameplayCanvasGroup;
         [SerializeField] private CanvasGroup _postStoryCanvasGroup;
+        [SerializeField] private LevelController _levelController;
+        [SerializeField] private GameObject _congratulationsText;
+        [SerializeField] private int _levelForVictory = 2;
 
         private void Awake()
         {
-            _gameFlowController.OnStateChanged += HandleGameStateChanged; 
+            _gameFlowController.OnStateChanged += HandleGameStateChanged;
+            HandleCongratulationsText();
+        }
+
+        private void HandleCongratulationsText()
+        {
+            int currentLevel = _levelController.CurrentLevel;
+
+            if (currentLevel == _levelForVictory)
+            {
+                _congratulationsText.SetActive(true);
+            }
+            else
+            {
+                _congratulationsText.SetActive(false);
+            }
         }
 
         private void HandleGameStateChanged(GameFlowState state)
@@ -27,6 +45,7 @@ namespace Gameplay.Story
             }
 
             ShowPostStory();
+            HandleCongratulationsText();
         }
 
         private void ShowPostStory()
