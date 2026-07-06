@@ -1,3 +1,4 @@
+using Gameplay.General;
 using Gameplay.Input;
 using System.Collections;
 using System.Collections.Generic;
@@ -7,6 +8,8 @@ namespace Gameplay.Input
 {
     public class CameraDragController : MonoBehaviour
     {
+        [Header("Dependencies")]
+        [SerializeField] private GameFlowController _gameFlowController;
         [SerializeField] private Camera _camera;
         [SerializeField] private SickleController _sickleController;
 
@@ -20,9 +23,30 @@ namespace Gameplay.Input
 
         private void Update()
         {
-            if (InputHandler.IsPressed == false || _sickleController.IsDragging)
-                return;
+            bool canDragCamera = CanDragCamera();
 
+            if (canDragCamera == false)
+            {
+                return;
+            }
+
+            HandleCameraDrag();
+        }
+
+        private bool CanDragCamera()
+        {
+            if (InputHandler.IsPressed == false ||
+                _sickleController.IsDragging ||
+                _gameFlowController.State != GameFlowState.Gameplay)
+            {
+                return false; 
+            }
+
+            return true;
+        }
+
+        private void HandleCameraDrag()
+        {
             Vector2 pointer = InputHandler.GetPointerScreenPosition();
 
             if (_lastPointerPosition == Vector2.zero)

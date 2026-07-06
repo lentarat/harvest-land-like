@@ -2,16 +2,17 @@ using Gameplay.Level;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
-public class PostStoryView : MonoBehaviour
+public class PostStoryImage : MonoBehaviour
 {
+    [SerializeField] private Image _image;
     [SerializeField] private LevelController _levelController;
     [SerializeField] private CanvasGroup _gameplayCanvasGroup;
 
     private void Awake()
     {
         _levelController.OnPostStoryShown += HandlePostStoryShown;
-        gameObject.SetActive(false);
     }
 
     private void HandlePostStoryShown()
@@ -29,7 +30,7 @@ public class PostStoryView : MonoBehaviour
 
     private void ShowStory()
     {
-        gameObject.SetActive(true);
+        _image.enabled = true;
     }
 
     private void OnDestroy()

@@ -14,22 +14,22 @@ namespace Gameplay.Story
         [SerializeField] private int _inputBanDelayMS = 500;
         [SerializeField] private string _storyLink = "https://en.wikipedia.org/wiki/Cat";
 
-        private void Awake()
-        {
-            _levelController.OnStoryRedirect += HandleRedirect;
-        }
-
-        private void HandleRedirect()
+        public void HandleRedirect()
         {
             _gameFlowController.EnterRedirect();
             RedirectRoutine().Forget();
         }
 
+        private void Awake()
+        {
+            _levelController.OnStoryRedirect += HandleRedirect;
+        }
+      
         private async UniTask RedirectRoutine()
         {
             await UniTask.Delay(_inputBanDelayMS);
 
-            Application.OpenURL(_storyLink);
+            //Application.OpenURL(_storyLink);
 
             await UniTask.Delay(_inputBanDelayMS);
 
