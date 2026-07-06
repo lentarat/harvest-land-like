@@ -16,7 +16,14 @@ namespace Gameplay.Input
 
         private void Update()
         {
+
+#if UNITY_STANDALONE || UNITY_EDITOR || UNITY_WEBGL
             HandleMouseZoom();
+#endif
+
+#if UNITY_ANDROID || UNITY_IOS || UNITY_WEBGL
+            HandleTouchZoom();
+#endif
         }
 
         private void LateUpdate()
@@ -25,7 +32,7 @@ namespace Gameplay.Input
                 _previousDistance = 0;
         }
 
-#if UNITY_STANDALONE || UNITY_EDITOR
+#if UNITY_STANDALONE || UNITY_EDITOR || UNITY_WEBGL
 
         private void HandleMouseZoom()
         {
@@ -41,8 +48,8 @@ namespace Gameplay.Input
 
 #endif
 
-#if UNITY_IOS || UNITY_ANDROID
-      
+#if UNITY_IOS || UNITY_ANDROID || UNITY_WEBGL
+
         private void HandleTouchZoom()
         {
             if (UnityEngine.Input.touchCount != 2)
