@@ -5282,7 +5282,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 1
-  m_Volume: 0.25
+  m_Volume: 0.125
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -7168,14 +7168,23 @@ MonoBehaviour:
   _harvestSystem: {fileID: 967425909}
   _levelsDatas:
   - XPRequired: 250
+    UnlockedSections: 00000000
   - XPRequired: 500
+    UnlockedSections: 000000000100000002000000
   - XPRequired: 750
+    UnlockedSections: 000000000100000002000000030000000400000005000000
   - XPRequired: 1000
+    UnlockedSections: 
   - XPRequired: 1250
+    UnlockedSections: 
   - XPRequired: 1500
+    UnlockedSections: 
   - XPRequired: 1750
+    UnlockedSections: 
   - XPRequired: 2000
+    UnlockedSections: 
   - XPRequired: 2250
+    UnlockedSections: 
 --- !u!4 &857154023
 Transform:
   m_ObjectHideFlags: 0
@@ -15328,7 +15337,7 @@ GameObject:
   - component: {fileID: 1816309267}
   - component: {fileID: 1816309268}
   m_Layer: 0
-  m_Name: PinchZoomController
+  m_Name: ZoomController
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -15659,7 +15668,7 @@ MonoBehaviour:
   m_fontColor32:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
+  m_fontColor: {r: 1, g: 1, b: 1, a: 0.9999998}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -15676,8 +15685,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 86
-  m_fontSizeBase: 86
+  m_fontSize: 100
+  m_fontSizeBase: 100
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18

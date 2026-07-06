@@ -71,7 +71,7 @@ namespace Gameplay
                 }
             }
 
-            if (_isIdle == false)
+            if (_isIdle == false && _isDragging == false)
             {
                 ReturnToSlot();
             }

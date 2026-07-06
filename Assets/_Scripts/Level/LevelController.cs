@@ -53,23 +53,26 @@ namespace Gameplay.Level
 
         private void UpdateSections()
         {
-            for (int i = 0; i < _harvestableSections.Length; i++)
+            foreach (int index in _levelsDatas[_currentLevel].UnlockedSections)
             {
-                if (i <= _currentLevel)
-                {
-                    _harvestableSections[i].Unlock();
-                }
-                else
-                {
-                    _harvestableSections[i].Lock();
-                }
+                _harvestableSections[index].Unlock();
             }
         }
-
 
         private void Awake()
         {
             _harvestSystem.OnTileHarvested += HandleTileHarvested;
+
+            LockAllSections();
+            UpdateSections();
+        }
+
+        private void LockAllSections()
+        {
+            foreach (HarvestableSection section in _harvestableSections)
+            {
+                section.Lock();
+            }
         }
 
         private void HandleTileHarvested(HarvestableTile harvestableTile)
@@ -86,6 +89,7 @@ namespace Gameplay.Level
         private struct LevelData
         {
             public float XPRequired;
+            public int[] UnlockedSections;
         }
     }
 }

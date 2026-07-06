@@ -19,9 +19,11 @@ namespace Gameplay.Audio
 
         [Header("Settings")]
         [SerializeField] private float _cooldown = 0.1f;
-        
+
         private float _lastPlayTime;
         private readonly Queue<AudioSource> _pool = new();
+        private readonly float _minRandomPitchRange = 0.9f;
+        private readonly float _maxRandomPitchRange = 1.1f;
 
         private void Awake()
         {
@@ -71,7 +73,7 @@ namespace Gameplay.Audio
             AudioSource audioSource = GetAudioSource();
 
             audioSource.gameObject.SetActive(true);
-            audioSource.pitch = Random.Range(0.95f, 1.05f);
+            audioSource.pitch = Random.Range(_minRandomPitchRange, _maxRandomPitchRange);
             audioSource.clip = _harvestAudioClip;
             audioSource.Play();
         }

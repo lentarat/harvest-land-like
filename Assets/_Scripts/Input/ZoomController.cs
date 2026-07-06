@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Gameplay.Input
 {
-    public class PinchZoomController : MonoBehaviour
+    public class ZoomController : MonoBehaviour
     {
         [SerializeField] private Camera _camera;
         [SerializeField] private float _zoomSpeed = 0.01f;
