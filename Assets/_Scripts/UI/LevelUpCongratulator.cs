@@ -23,10 +23,10 @@ public class LevelUpCongratulator : MonoBehaviour
 
     private void HandleLevelChanged(int level)
     {
-        Show(level);
+        Show();
     }
 
-    private void Show(int level)
+    private void Show()
     {
         _sequence?.Kill();
 

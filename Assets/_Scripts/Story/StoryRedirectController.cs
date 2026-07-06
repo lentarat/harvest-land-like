@@ -28,11 +28,7 @@ namespace Gameplay.Story
         {
             _gameFlowController.EnterRedirect();
 
-            await UniTask.Delay(_inputBanDelayMS);
-
-            //Application.OpenURL(_storyLink);
-
-            await UniTask.Delay(_inputBanDelayMS);
+            Application.OpenURL(_storyLink);
 
             _gameFlowController.EnterPostStory();
         }

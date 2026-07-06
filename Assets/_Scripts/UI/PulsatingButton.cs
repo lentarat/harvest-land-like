@@ -1,30 +1,24 @@
-using Gameplay.Story;
+using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using DG.Tweening;
 
 namespace Gameplay.UI
 {
-    public class PlayNowButton : MonoBehaviour
+    public class PulsatingButton : MonoBehaviour
     {
-        [SerializeField] private StoryRedirectController _storyRedirectController;
-        [SerializeField] private Button _button;
         [SerializeField] private float _maxScale;
         [SerializeField] private float _duration;
-        
+        [SerializeField] private Button _button;
+
+        protected Button Button => _button;
+
         private Sequence _sequence;
 
-        private void Awake()
+        protected void Init()
         {
-            _button.onClick.AddListener(() => { Redirect(); });
             Animate();
-        }
-
-        private void Redirect()
-        {
-            _storyRedirectController.Redirect();
         }
 
         private void Animate()
@@ -35,5 +29,5 @@ namespace Gameplay.UI
             _sequence.Append(transform.DOScale(1f, _duration));
             _sequence.SetLoops(-1);
         }
-    } 
+    }
 }

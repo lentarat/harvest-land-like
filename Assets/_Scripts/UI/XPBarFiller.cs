@@ -41,7 +41,7 @@ namespace Gameplay.UI
 
         private void HandleLevelChanged(int curretLevel)
         {
-            _levelText.text = curretLevel.ToString();
+            _levelText.text = (curretLevel + 1).ToString();
         }
 
         private void HandleCurrentXPChanged(float currentXP, float previousXP, float requiredXP)

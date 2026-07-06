@@ -13,7 +13,6 @@ namespace Gameplay.Level
         [SerializeField] private HarvestableSection[] _harvestableSections;
         [SerializeField] private HarvestSystem _harvestSystem;
         [SerializeField] private LevelData[] _levelsDatas;
-        [SerializeField] private int _storeRedirectionLevel = 2;
         
         public event Action<int> OnLevelChanged;
         public event Action<float, float, float> OnCurrentXPChanged;
@@ -50,7 +49,7 @@ namespace Gameplay.Level
         private void LevelUp()
         {
             _currentLevel++;
-            OnLevelChanged?.Invoke(_currentLevel + 1);
+            OnLevelChanged?.Invoke(_currentLevel);
         }
 
         private void UpdateSections()
