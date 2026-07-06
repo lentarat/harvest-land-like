@@ -24,7 +24,7 @@ namespace Gameplay.UI
 
         private void Redirect()
         {
-            _storyRedirectController.HandleRedirect();
+            _storyRedirectController.Redirect();
         }
 
         private void Animate()

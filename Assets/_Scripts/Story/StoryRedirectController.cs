@@ -9,36 +9,45 @@ namespace Gameplay.Story
 {
     public class StoryRedirectController : MonoBehaviour
     {
-        [SerializeField] private GameFlowController _gameFlowController;
         [SerializeField] private LevelController _levelController;
+        [SerializeField] private GameFlowController _gameFlowController;
         [SerializeField] private int _inputBanDelayMS = 500;
         [SerializeField] private string _storyLink = "https://en.wikipedia.org/wiki/Cat";
 
-        public void HandleRedirect()
+        public void Redirect()
         {
-            _gameFlowController.EnterRedirect();
-            RedirectRoutine().Forget();
+            RedirectAsync().Forget();
         }
 
         private void Awake()
         {
-            _levelController.OnStoryRedirect += HandleRedirect;
+            _levelController.OnLevelChanged += HandleLevelChanged;
         }
-      
-        private async UniTask RedirectRoutine()
+
+        private async UniTask RedirectAsync()
         {
+            _gameFlowController.EnterRedirect();
+
             await UniTask.Delay(_inputBanDelayMS);
 
             //Application.OpenURL(_storyLink);
 
             await UniTask.Delay(_inputBanDelayMS);
 
-            _levelController.PostStoryImage();
+            _gameFlowController.EnterPostStory();
+        }
+
+        private void HandleLevelChanged(int currentLevel)
+        {
+            if (currentLevel == 2)
+            {
+                RedirectAsync().Forget();
+            }
         }
 
         private void OnDestroy()
         {
-            _levelController.OnStoryRedirect -= HandleRedirect;
+            _levelController.OnLevelChanged -= HandleLevelChanged;
         }
     }
 }

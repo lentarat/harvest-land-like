@@ -1,40 +1,57 @@
+using Gameplay.General;
 using Gameplay.Level;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class PostStoryImage : MonoBehaviour
+namespace Gameplay.Story
 {
-    [SerializeField] private Image _image;
-    [SerializeField] private LevelController _levelController;
-    [SerializeField] private CanvasGroup _gameplayCanvasGroup;
-
-    private void Awake()
+    public class PostStoryImage : MonoBehaviour
     {
-        _levelController.OnPostStoryShown += HandlePostStoryShown;
-    }
+        [SerializeField] private Image _image;
+        [SerializeField] private GameFlowController _gameFlowController;
+        [SerializeField] private CanvasGroup _gameplayCanvasGroup;
+        [SerializeField] private CanvasGroup _postStoryCanvasGroup;
 
-    private void HandlePostStoryShown()
-    {
-        HideGameplayUI();
-        ShowStory();
-    }
+        private void Awake()
+        {
+            _gameFlowController.OnStateChanged += HandleGameStateChanged; 
+        }
 
-    private void HideGameplayUI()
-    {
-        _gameplayCanvasGroup.alpha = 0f;
-        _gameplayCanvasGroup.interactable = false;
-        _gameplayCanvasGroup.blocksRaycasts = true;
-    }
+        private void HandleGameStateChanged(GameFlowState state)
+        {
+            if (state != GameFlowState.PostStory)
+            {
+                return;
+            }
 
-    private void ShowStory()
-    {
-        _image.enabled = true;
-    }
+            ShowPostStory();
+        }
 
-    private void OnDestroy()
-    {
-        _levelController.OnPostStoryShown -= HandlePostStoryShown;
+        private void ShowPostStory()
+        {
+            HideGameplayCanvasGroup();
+            ShowPostStoryCanvasGroup();
+        }
+
+        private void HideGameplayCanvasGroup()
+        {
+            _gameplayCanvasGroup.alpha = 0f;
+            _gameplayCanvasGroup.interactable = false;
+            _gameplayCanvasGroup.blocksRaycasts = false;
+        }
+
+        private void ShowPostStoryCanvasGroup()
+        {
+            _postStoryCanvasGroup.alpha = 1f;
+            _postStoryCanvasGroup.interactable = true;
+            _postStoryCanvasGroup.blocksRaycasts = true;
+        }
+
+        private void OnDestroy()
+        {
+            _gameFlowController.OnStateChanged -= HandleGameStateChanged;
+        }
     }
 }

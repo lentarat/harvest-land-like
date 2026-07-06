@@ -7,7 +7,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Windows;
 
-namespace Gameplay
+namespace Gameplay.Sickle
 {
     public class SickleController : MonoBehaviour
     {

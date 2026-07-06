@@ -10,7 +10,6 @@ namespace Gameplay.Level
 {
     public class LevelController : MonoBehaviour
     {
-        [SerializeField] private GameFlowController _gameFlowController;
         [SerializeField] private HarvestableSection[] _harvestableSections;
         [SerializeField] private HarvestSystem _harvestSystem;
         [SerializeField] private LevelData[] _levelsDatas;
@@ -18,13 +17,10 @@ namespace Gameplay.Level
         
         public event Action<int> OnLevelChanged;
         public event Action<float, float, float> OnCurrentXPChanged;
-        public event Action OnStoryRedirect;
-        public event Action OnPostStoryShown;
-
-        private bool _isStoryTriggered;
-        private int _currentLevel;
         
+        private int _currentLevel;
         private float _currentXP;
+
         private float CurrentXP 
         { 
             get => _currentXP;
@@ -39,12 +35,6 @@ namespace Gameplay.Level
                 float requiredXP = _levelsDatas[_currentLevel].XPRequired;
                 OnCurrentXPChanged?.Invoke(_currentXP, previousXP, requiredXP - 1);
             }
-        }
-
-        public void PostStoryImage()
-        {
-            _gameFlowController.EnterPostStory();
-            OnPostStoryShown?.Invoke();
         }
 
         private void CheckLevelUp()
@@ -90,16 +80,6 @@ namespace Gameplay.Level
         private void HandleTileHarvested(HarvestableTile harvestableTile)
         {
             CurrentXP += harvestableTile.XP;
-            HandleStoryRedirect();
-        }
-
-        private void HandleStoryRedirect()
-        { 
-            if(_currentLevel == _storeRedirectionLevel && _isStoryTriggered == false)
-            {
-                _isStoryTriggered = true;
-                OnStoryRedirect?.Invoke();
-            }
         }
 
         private void OnDestroy()
